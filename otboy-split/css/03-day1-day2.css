@@ -1,0 +1,339 @@
+/* v5.2: единая редакционная система текста, авторские данные и мягкие монтажные стыки */
+:root{--otboy-ink:#fff7e8;--otboy-muted:#ffe5c4;--otboy-shadow:0 2px 15px rgba(10,8,6,.95),0 1px 3px rgba(10,8,6,.9)}
+.arrival-credits{position:absolute;z-index:24;top:max(17px,env(safe-area-inset-top));left:clamp(18px,3.8vw,58px);right:clamp(18px,3.8vw,58px);display:flex;align-items:start;justify-content:space-between;gap:20px;pointer-events:none;color:#fff4e5;font:700 clamp(12px,1.12vw,15px)/1.4 'PT Sans',sans-serif;letter-spacing:.045em;text-shadow:var(--otboy-shadow)}
+.arrival-credits span:last-child{text-align:right}
+/* Один шрифт для речи и основного текста; моноширинный остаётся только у технических временных отметок. */
+.story-chapter .beat-quote,.story-chapter .beat-narration,.story-chapter .chapter-intro p,
+#dining p,#play p,#day2 p,.d-text p,.p-text p,.scene p,
+.story-chapter .beat-who,.story-chapter .chapter-meta span:last-child{
+ font-family:'PT Sans',sans-serif!important;color:var(--otboy-ink)!important;
+ text-shadow:var(--otboy-shadow);
+}
+.story-chapter .beat-quote{font-weight:700!important;line-height:1.2!important}
+.story-chapter .beat-who{color:var(--otboy-muted)!important;font-weight:700!important}
+.story-chapter .chapter-meta span:first-child{color:var(--otboy-muted)!important;font-family:'PT Sans',sans-serif!important;font-weight:700!important}
+.story-chapter .chapter-meta span:last-child{font-family:'PT Sans',sans-serif!important;font-weight:700!important}
+.story-chapter .chapter-intro h2,.story-chapter h2{color:var(--otboy-ink);text-shadow:var(--otboy-shadow)}
+/* Внутренний мягкий затемнённый край каждого фото вместо видимого прямого обрыва. */
+#arrival,#lineup,#dining,#play,#dorm,#day2{position:relative}
+#arrival::after,#lineup::after,#dining::after,#play::after,#dorm::after{
+ content:"";position:absolute;bottom:-1px;left:0;right:0;height:clamp(90px,16svh,240px);
+ background:linear-gradient(to bottom,rgba(20,19,15,0) 0%,rgba(20,19,15,.52) 60%,#191a16 100%);
+ z-index:9;pointer-events:none;
+}
+#lineup::before,#dining::before,#play::before,#dorm::before,#day2::before{
+ content:"";position:absolute;top:-1px;left:0;right:0;height:clamp(80px,14svh,200px);
+ background:linear-gradient(to bottom,#191a16 0%,rgba(20,19,15,.52) 40%,rgba(20,19,15,0) 100%);
+ z-index:8;pointer-events:none;
+}
+/* Переходы должны оставаться под интерактивными элементами и текстом. */
+#arrival .arrival-credits,#arrival .entry-btn,#arrival button{z-index:24}
+@media(max-width:767px){
+ .arrival-credits{top:max(14px,env(safe-area-inset-top));left:18px;right:18px;font-size:11px;gap:12px}
+ .story-chapter .beat-quote{font-size:clamp(28px,7.2vw,43px)}
+ #arrival::after,#lineup::after,#dining::after,#play::after,#dorm::after{height:110px}
+ #lineup::before,#dining::before,#play::before,#dorm::before,#day2::before{height:95px}
+}
+
+/* v5.3 — единая система набора, без декоративных карточек и разнобоя */
+:root{--story-text:#fff9ed;--story-shadow:0 2px 6px rgba(0,0,0,.9),0 5px 24px rgba(0,0,0,.75)}
+.arrival-reference .reference-art{filter:none!important}
+.arrival-credits{font-family:'PT Sans',sans-serif!important;color:#fff9ed!important;font-weight:700!important;text-shadow:var(--story-shadow)!important}
+.story-chapter .beat-who,.story-chapter .beat-quote,.story-chapter .beat-narration,
+.story-chapter .chapter-number,.story-chapter .chapter-intro p,
+.story-chapter .chapter-meta span,.d-text p,.p-text,.hud span,.t-day p{
+ font-family:'PT Sans',sans-serif!important;color:var(--story-text)!important;text-shadow:var(--story-shadow)!important;
+}
+.story-chapter .beat-who{font-size:clamp(17px,1.55vw,23px)!important;font-weight:700!important;letter-spacing:0!important;text-transform:none!important;margin-bottom:4px!important}
+.story-chapter .beat-who::before,.story-chapter .beat-quote::before{display:none!important}
+.story-chapter .beat-quote{font-size:clamp(26px,2.45vw,37px)!important;font-weight:700!important;line-height:1.23!important;letter-spacing:0!important}
+.story-chapter .chapter-meta span{font-size:clamp(13px,1.1vw,16px)!important;letter-spacing:.045em!important}
+.story-chapter .chapter-meta span:last-child::before{display:none!important}
+.story-chapter .chapter-intro h2{font-family:var(--disp)!important;color:var(--story-text)!important}
+/* Линейка: три реплики на одном кадре, накопление при прокрутке. */
+.lineup .lineup-overlay{position:absolute;inset:0;z-index:5;pointer-events:none;font-family:'PT Sans',sans-serif}
+.lineup .lineup-voice{position:absolute;width:max-content;max-width:35vw;color:var(--story-text);text-shadow:var(--story-shadow);opacity:0;transform:translateY(15px);filter:blur(2px);transition:opacity .75s ease,transform .85s ease,filter .75s ease}
+.lineup .lineup-voice.visible{opacity:1;transform:translateY(0);filter:none}
+.lineup .lineup-voice p{margin:0;font:700 clamp(24px,2.3vw,35px)/1.24 'PT Sans',sans-serif;color:inherit;text-shadow:inherit}
+.lineup .lineup-voice .speaker{font-weight:700;margin-bottom:3px}
+.lineup .lineup-katya{left:15.5%;top:27%}
+.lineup .lineup-counselor{left:50%;top:37%;max-width:38vw}
+.lineup .lineup-leva{right:5%;bottom:27%}
+.lineup .lineup-counselor p+p{margin-top:16px}
+/* Существующие story-beat сохраняют длину и порядок прокрутки, но не дублируют реплики. */
+.lineup .story-beat .beat-inner{visibility:hidden!important}
+/* Перекрытие кадров: фотографии растворяются друг в друге, без видимой прямой границы. */
+#arrival::after,#lineup::after,#dining::after,#play::after,#dorm::after,
+#lineup::before,#dining::before,#play::before,#dorm::before,#day2::before{display:none!important}
+.scene-crossfade{position:fixed;inset:0;z-index:15;pointer-events:none;opacity:0;visibility:hidden;background:#191a16;overflow:hidden}
+.scene-crossfade.active{visibility:visible}
+.scene-crossfade img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.scene-crossfade .fade-next{opacity:var(--mix,0)}
+.scene-crossfade .fade-tone{position:absolute;inset:0;background:rgba(24,21,16,.09)}
+@media(max-width:767px){
+ .lineup .lineup-voice{max-width:76vw}
+ .lineup .lineup-voice p{font-size:clamp(19px,5.1vw,27px)}
+ .lineup .lineup-katya{left:6%;top:24%}
+ .lineup .lineup-counselor{left:12%;top:43%;max-width:82vw}
+ .lineup .lineup-leva{right:6%;bottom:17%}
+ .lineup .lineup-counselor p+p{margin-top:10px}
+}
+@media(prefers-reduced-motion:reduce){.lineup .lineup-voice{transition:none;transform:none;filter:none}}
+
+/* v5.4 — читаемая единая типографика и аккуратный монтаж */
+.lineup .lineup-voice p{font-family:'PT Sans',sans-serif!important;font-size:clamp(22px,2.25vw,34px)!important;line-height:1.23!important;font-weight:700!important;color:#fff9ed!important;text-shadow:0 2px 8px rgba(0,0,0,.95),0 4px 20px rgba(0,0,0,.8)!important}
+.lineup .lineup-voice .speaker{font-size:clamp(17px,1.55vw,23px)!important;margin-bottom:6px!important}
+.scene-crossfade{background:transparent!important}
+.scene-crossfade .fade-tone{background:transparent!important}
+@media(max-width:767px){.lineup .lineup-voice p{font-size:clamp(19px,5vw,27px)!important}.lineup .lineup-voice .speaker{font-size:15px!important}}
+
+/* v5.5: новая обложка — чистое фото, редактируемая типографика и кнопка */
+.arrival-reference{isolation:isolate;min-height:100svh;display:block}
+.arrival-reference .reference-art{z-index:0;object-position:center 52%;filter:saturate(.87) contrast(.96) sepia(.12)!important}
+.arrival-reference::before{content:"";position:absolute;inset:0;z-index:1;background:linear-gradient(90deg,rgba(16,17,12,.13),transparent 75%);pointer-events:none}
+.arrival-credits{z-index:30!important;top:clamp(18px,2.5vw,36px)!important;color:#fff!important;font-weight:700!important;letter-spacing:.08em!important;text-shadow:0 2px 8px #15110d,0 4px 18px #15110d!important}
+.arrival-layout{position:absolute;z-index:20;inset:0;display:grid;grid-template-columns:minmax(0,1.04fr) minmax(0,.96fr);align-items:start;gap:clamp(20px,3.4vw,65px);padding:clamp(75px,9vh,125px) clamp(22px,4vw,64px) 5vh}
+.arrival-poster{position:relative;justify-self:start;max-width:100%;padding:clamp(17px,2.5vw,39px) clamp(20px,3vw,48px) clamp(14px,2.2vw,32px);background:#e8ddc4;color:#33281f;transform:rotate(-3deg);clip-path:polygon(0 4%,100% 0,99% 89%,2% 100%);box-shadow:0 4px 20px #0003}
+.arrival-poster::before{content:"";position:absolute;top:-2px;left:68%;width:13%;height:20px;background:#a92d21;transform:rotate(4deg)}
+.arrival-poster h1{margin:0;color:#a3291f!important;font:900 clamp(76px,11vw,188px)/.95 'Durik',Impact,sans-serif!important;letter-spacing:-.035em;white-space:nowrap;text-shadow:none!important}
+.arrival-poster p{margin:clamp(8px,1.2vw,19px) 0 0 4%;font:400 clamp(15px,1.4vw,23px)/1.25 'PT Sans',sans-serif!important;color:#3b3029!important;text-shadow:none!important;letter-spacing:.015em}
+.arrival-intro{margin-top:clamp(60px,9vh,125px);justify-self:start;max-width:390px;color:#fff}
+.arrival-intro>p{font:400 clamp(18px,1.65vw,25px)/1.42 'PT Sans',sans-serif!important;color:#fff!important;text-shadow:0 2px 9px #111,0 4px 18px #111!important;letter-spacing:.015em;margin:0 0 24px}
+.arrival-reference .reference-enter,.arrival-reference .reference-enter:hover,.arrival-reference .reference-enter:focus-visible,.arrival-reference .reference-enter:active{position:relative!important;left:auto!important;top:auto!important;width:clamp(210px,19vw,285px)!important;height:clamp(56px,5vw,76px)!important;padding:0 23px!important;background:#eee5d4!important;color:#2b261f!important;border:1px solid #e5d7c0!important;box-shadow:0 4px 18px #0003!important;display:flex!important;justify-content:space-between!important;align-items:center!important;font:700 clamp(14px,1.25vw,18px)/1 'PT Sans',sans-serif!important;letter-spacing:.2em!important;transform:none!important;filter:none!important;opacity:1!important;transition:background .22s ease,box-shadow .22s ease!important;cursor:pointer}
+.arrival-reference .reference-enter:hover{background:#fff4df!important;box-shadow:0 7px 22px #0004!important}
+.arrival-reference .reference-enter span{color:#2b261f!important;opacity:1!important;visibility:visible!important}
+.arrival-reference .reference-enter span:last-child{font-size:29px!important;font-weight:400!important;letter-spacing:0!important}
+.arrival-reference .reference-enter:focus-visible{outline:3px solid #fff!important;outline-offset:4px!important}
+/* Унификация верхних служебных надписей всех сцен */
+.story-chapter .chapter-meta span,.hud,.hud span,.arrival-credits,.chapter-number{color:#fff!important;text-shadow:0 2px 8px #111,0 3px 18px #111!important}
+/* Одинаковый размер реплик линейки и остальных сюжетных сцен */
+.lineup .lineup-voice p:not(.speaker){font-size:clamp(26px,2.45vw,37px)!important;line-height:1.23!important}
+.lineup .lineup-voice .speaker{font-size:clamp(17px,1.55vw,23px)!important}
+/* Мягкий непрерывный монтаж: непрозрачность и смешивание меняются плавно */
+.scene-crossfade{background:transparent!important;will-change:opacity}
+.scene-crossfade img{object-position:center center}
+@media(max-width:767px){
+.arrival-layout{grid-template-columns:1fr;align-content:start;gap:0;padding:clamp(78px,12vh,110px) 5vw 5vh}
+.arrival-poster{max-width:96%;padding:17px 20px 22px}
+.arrival-poster h1{font-size:clamp(66px,15vw,116px)!important}
+.arrival-poster p{font-size:clamp(13px,3.5vw,18px)!important}
+.arrival-intro{margin-top:clamp(20px,4vh,44px);margin-left:3%;max-width:90%}
+.arrival-intro>p{font-size:clamp(17px,4.2vw,22px)!important}
+.arrival-reference .reference-enter{width:clamp(195px,53vw,270px)!important;height:58px!important}
+.lineup .lineup-voice p:not(.speaker){font-size:clamp(19px,5vw,27px)!important}
+}
+@media(max-height:560px) and (min-width:768px){.arrival-layout{padding-top:65px}.arrival-intro{margin-top:25px}.arrival-poster h1{font-size:clamp(65px,9vw,125px)!important}}
+
+/* v5.7: restore right column after removing duplicate title; no other changes */
+@media (min-width:768px){#arrival .arrival-layout > .arrival-intro{grid-column:2;grid-row:1}}
+
+
+/* v5.10 — реальное сглаживание фотографий на уровне самих сцен.
+   Прозрачность плавно уходит к единому тёмному фону, без JS-слоёв и жёсткого шва. */
+:root{--scene-fade:clamp(100px,18svh,220px)}
+body{background:#14120f}
+#arrival,#lineup,#dining,#play,#dorm{background:#14120f}
+#arrival::before,#arrival::after,#lineup::before,#lineup::after,
+#dining::before,#dining::after,#play::before,#play::after,
+#dorm::before,#dorm::after{display:none!important}
+#arrival{ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - var(--scene-fade)),transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - var(--scene-fade)),transparent 100%)}
+#lineup,#dining,#play,#dorm{
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 var(--scene-fade),#000 calc(100% - var(--scene-fade)),transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent 0%,#000 var(--scene-fade),#000 calc(100% - var(--scene-fade)),transparent 100%);
+}
+/* Поскольку разделы имеют общий цвет фона, маски должны затрагивать фон фото,
+   а не оставлять тёмные прямоугольники. */
+#arrival,#lineup,#dining,#play,#dorm{background:transparent}
+/* Кружка — часть настоящего фотоснимка. Кликабельная зона не рисует поверх неё другую кружку. */
+.dining .mug-touch{position:absolute;z-index:8;left:46%;top:83%;width:clamp(64px,8vw,128px);height:clamp(64px,8vw,128px);transform:translate(-50%,-50%);border:0;background:transparent;cursor:pointer;border-radius:50%;padding:0}
+.dining .mug-touch::after{content:"";position:absolute;inset:8%;border:1px solid rgba(255,245,221,.55);border-radius:50%;box-shadow:0 0 0 6px rgba(20,17,13,.10),0 0 22px rgba(255,246,224,.12);opacity:.35;transition:opacity .3s,transform .3s}
+.dining .mug-touch:hover::after,.dining .mug-touch:focus-visible::after{opacity:.9;transform:scale(1.08)}
+.dining .mug-touch:focus-visible{outline:2px solid #fff2d4;outline-offset:2px}
+.dining .mug-story{position:absolute;z-index:9;left:52%;bottom:16%;max-width:min(360px,40vw);padding:15px 20px;background:rgba(25,22,17,.78);backdrop-filter:blur(8px);color:#fff8e8;font:400 clamp(16px,1.35vw,20px)/1.45 'PT Sans',sans-serif;border-left:2px solid #c4a58b;opacity:0;transform:translateY(10px);transition:opacity .45s,transform .45s;pointer-events:none;text-shadow:0 1px 5px #000}
+.dining .mug-story.is-open{opacity:1;transform:none}
+.dining .mug-hint{position:absolute;z-index:8;left:46%;top:71%;transform:translateX(-50%);font:400 13px 'PT Sans',sans-serif;color:#fff8e8;text-shadow:0 1px 8px #000;pointer-events:none;opacity:.85;white-space:nowrap}
+@media(max-width:767px){
+ :root{--scene-fade:clamp(75px,12svh,140px)}
+ .dining .mug-touch{left:45%;top:82%;width:75px;height:75px}
+ .dining .mug-hint{left:45%;top:69%;font-size:12px}
+ .dining .mug-story{left:6%;bottom:23%;max-width:88%;font-size:16px}
+}
+
+
+/* v5.11 — ненавязчивая подсказка вместо кружка. Переходы не меняем. */
+.dining .mug-touch::after{display:none!important}
+.dining .mug-touch{cursor:pointer}
+.dining .mug-hint{opacity:0;top:70%;padding:7px 12px;border-radius:3px;background:rgba(27,23,19,.77);box-shadow:0 5px 16px rgba(0,0,0,.16);font-size:13px;letter-spacing:.01em;transition:opacity .22s ease,transform .22s ease;transform:translate(-50%,5px)}
+.dining .mug-touch:hover~.mug-hint,.dining .mug-touch:focus-visible~.mug-hint{opacity:1;transform:translate(-50%,0)}
+.dining .mug-touch:focus-visible{outline:2px solid #fff2d4;outline-offset:3px}
+@media(hover:none){.dining .mug-hint{opacity:.8;transform:translate(-50%,0);font-size:12px}}
+
+/* v5.12 — маскируем только фотографию и её тональный слой, не текст. */
+#arrival,#lineup,#dining,#play,#dorm{ -webkit-mask-image:none!important;mask-image:none!important }
+#arrival .photo{ -webkit-mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - var(--scene-fade)),transparent 100%);mask-image:linear-gradient(to bottom,#000 0%,#000 calc(100% - var(--scene-fade)),transparent 100%)}
+#lineup .photo,#dining .photo,#play .photo,#dorm .photo{
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 var(--scene-fade),#000 calc(100% - var(--scene-fade)),transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent 0%,#000 var(--scene-fade),#000 calc(100% - var(--scene-fade)),transparent 100%);
+}
+/* Верхние подписи читаются даже на светлом кадре. */
+#arrival .hud,#lineup .hud,#dining .hud,#play .hud,#dorm .hud{z-index:12!important;color:#fff!important;opacity:1!important;filter:none!important;text-shadow:0 2px 5px rgba(0,0,0,.9),0 3px 16px #16130e!important}
+#arrival .hud span,#lineup .hud span,#dining .hud span,#play .hud span,#dorm .hud span{color:#fff!important;opacity:1!important}
+/* Подсказка видна до наведения: журнальная выноска над кружкой, не на ней. */
+.dining .mug-hint{left:46%;top:62%;opacity:1!important;transform:translateX(-50%)!important;
+ background:transparent;box-shadow:none;border-radius:0;padding:0 0 12px;
+ font:700 clamp(13px,1.12vw,16px)/1.35 'PT Sans',sans-serif;letter-spacing:.06em;
+ color:#fff9e9;text-shadow:0 2px 5px #17120e,0 3px 14px #17120e;
+ border-bottom:1px solid rgba(255,248,229,.75);white-space:nowrap;transition:color .2s ease,letter-spacing .2s ease}
+.dining .mug-hint::after{content:'↓';position:absolute;left:50%;top:100%;transform:translateX(-50%);font:400 24px/1 'PT Sans',sans-serif;color:#fff9e9;text-shadow:0 2px 6px #17120e}
+.dining .mug-touch:hover~.mug-hint,.dining .mug-touch:focus-visible~.mug-hint{color:#fff;letter-spacing:.09em;transform:translateX(-50%)!important}
+.dining .mug-touch:hover{background:rgba(255,245,215,.07)}
+/* Реплика — часть повествования, без отдельной интерфейсной карточки. */
+.dining .mug-story{left:7%;top:42%;bottom:auto;max-width:min(350px,30vw);padding:0 0 0 18px;
+ background:transparent;backdrop-filter:none;border-left:2px solid #f4e7ca;border-radius:0;
+ box-shadow:none;font:400 clamp(19px,1.65vw,25px)/1.43 'PT Sans',sans-serif;
+ color:#fff9ec;text-shadow:0 2px 5px #17120e,0 3px 15px #17120e}
+@media(max-width:767px){.dining .mug-hint{left:45%;top:61%;font-size:12px;padding-bottom:8px}.dining .mug-hint::after{font-size:20px}
+ .dining .mug-story{left:7%;top:35%;bottom:auto;max-width:85%;font-size:18px;padding-left:13px}}
+
+/* v5.13: only reposition the existing mug caption below the mug; no rule or arrow. */
+.dining .mug-hint{top:91%!important;left:46%!important;padding:0!important;border:0!important;border-bottom:0!important;background:none!important;box-shadow:none!important;transform:translateX(-50%)!important}
+.dining .mug-hint::after,.dining .mug-hint::before{content:none!important;display:none!important}
+@media(max-width:767px){.dining .mug-hint{top:94%!important;left:45%!important;font-size:12px!important}}
+
+/* v5.14: финальная точечная правка кружки; переходы и другие сцены не меняем. */
+.dining .mug-hint{left:43.5%!important;top:92%!important;transform:translateX(-50%)!important;border:0!important;padding:0!important;background:none!important;box-shadow:none!important;white-space:nowrap!important}
+.dining .mug-hint::before,.dining .mug-hint::after{display:none!important;content:none!important}
+/* Невидимая зона на самой кружке, а не сбоку от неё. */
+.dining .mug-touch{left:43.5%!important;top:82%!important;width:clamp(64px,7vw,108px)!important;height:clamp(60px,7vw,108px)!important;cursor:pointer!important}
+/* Маленький световой отклик непосредственно на предмете: не рамка и не стрелка. */
+.dining .mug-touch::after{display:block!important;content:""!important;position:absolute;inset:15%;border:1px solid rgba(255,248,224,.48);border-radius:50%;background:rgba(255,244,206,.055);box-shadow:0 0 12px rgba(255,240,199,.18);opacity:.52;transition:opacity .2s ease,box-shadow .2s ease,transform .2s ease}
+.dining .mug-touch:hover::after,.dining .mug-touch:focus-visible::after{opacity:.95;transform:scale(1.06);box-shadow:0 0 19px rgba(255,240,199,.35)}
+@media(max-width:767px){.dining .mug-touch{left:43.5%!important;top:82%!important;width:70px!important;height:70px!important}.dining .mug-hint{left:43.5%!important;top:94%!important;font-size:12px!important}}
+
+/* v5.15: поднять подсказку и кликабельную область к кружке на фотографии */
+.dining .mug-touch{left:43.5%!important;top:69%!important;width:76px!important;height:76px!important}
+.dining .mug-hint{left:43.5%!important;top:78%!important;font-size:12px!important}
+@media(max-width:700px){.dining .mug-touch{left:43.5%!important;top:69%!important;width:68px!important;height:68px!important}.dining .mug-hint{left:43.5%!important;top:79%!important;font-size:11px!important}}
+
+/* 16:00 — редактируемая типографика поверх чистой фотографии */
+#play .play-header{position:absolute;z-index:30;top:clamp(26px,5vh,64px);left:clamp(22px,5vw,85px);display:flex;flex-direction:column;gap:5px;color:#fff8ee;font:400 clamp(19px,2vw,26px)/1.2 'PT Sans',sans-serif;text-shadow:0 2px 12px #17100b,0 0 25px #17100b;pointer-events:none}
+#play .play-time{font-weight:700}
+#play .p-text{position:absolute;z-index:30;left:clamp(22px,5vw,85px);right:auto;top:clamp(148px,21vh,235px);bottom:auto;width:min(440px,82vw);font:400 clamp(19px,2vw,26px)/1.38 'PT Sans',sans-serif;text-shadow:0 2px 12px #17100b,0 0 25px #17100b}
+@media(max-width:767px){#play .play-header{top:25px}#play .p-text{top:130px;width:82vw}}
+
+/* v5.18: ночные реплики читаются поверх фотографии; фотографии не содержат текста. */
+#dorm .beat-inner{background:none!important;background-color:transparent!important;box-shadow:none!important;border:none!important;backdrop-filter:none!important;padding:0!important;max-width:620px;text-shadow:0 2px 14px rgba(0,0,0,.85)}
+#dorm .chapter-meta{z-index:20;text-shadow:0 2px 12px rgba(0,0,0,.95)}
+#dorm .chapter-shade{pointer-events:none}
+@media(max-width:767px){#dorm .beat-inner{max-width:80vw;padding:12px 14px}}
+
+/* v5.19: ночная сцена — только живой текст поверх фотографии. */
+#dorm .story-beat .beat-inner,#dorm .story-beat .beat-inner::before,#dorm .story-beat .beat-inner::after{
+ background:none!important;background-color:transparent!important;box-shadow:none!important;
+ border:0!important;backdrop-filter:none!important;
+}
+#dorm .story-beat .beat-inner{padding:0!important;border-radius:0!important}
+#dorm .beat-who,#dorm .beat-quote,#dorm .beat-narration{background:none!important;box-shadow:none!important}
+/* Время и название не соприкасаются. Остальные главы не затрагиваем. */
+#dorm .chapter-intro-content{display:flex;flex-direction:column;align-items:flex-start;gap:clamp(22px,3vh,38px)}
+#dorm .chapter-intro .chapter-number{margin:0!important;line-height:1.55!important}
+#dorm .chapter-intro h2{margin:0!important;line-height:1.06!important}
+@media(max-width:767px){#dorm .chapter-intro-content{gap:24px}#dorm .chapter-intro{padding-bottom:18vh}}
+
+/* v5.20: День 2. Вся типографика — редактируемый HTML, без текста в фотографии. */
+.day2-morning{position:relative;height:230svh;background:#14110e;color:#f5eee1}
+.day2-sticky{position:sticky;top:0;height:100svh;overflow:hidden;isolation:isolate}
+.day2-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 50%;filter:saturate(.85) contrast(1.04) sepia(.10);-webkit-mask-image:linear-gradient(to bottom,transparent 0%,black 13%,black 82%,transparent 100%);mask-image:linear-gradient(to bottom,transparent 0%,black 13%,black 82%,transparent 100%)}
+.day2-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,13,11,.72),rgba(15,13,11,.26) 42%,transparent 78%);pointer-events:none}
+.day2-header{position:absolute;top:32px;left:5vw;right:5vw;z-index:4;display:flex;justify-content:space-between;gap:20px;color:#fff8ef;font:500 15px/1.3 'PT Sans',sans-serif;letter-spacing:.08em;text-shadow:0 2px 12px #0008}
+.day2-content{position:absolute;z-index:4;left:7vw;top:24%;width:min(440px,75vw);text-shadow:0 2px 16px #0009}
+.day2-kicker{font:500 13px/1.4 'PT Sans',sans-serif;letter-spacing:.15em;margin-bottom:12px;color:#f5e2c5}
+.day2-content h2{font:400 clamp(76px,11vw,152px)/.92 var(--disp);margin:0 0 26px;color:#f4e7d2}
+.day2-content p{font:400 clamp(17px,1.6vw,22px)/1.55 'PT Sans',sans-serif;margin:0 0 20px;max-width:390px;transition:opacity .7s,transform .7s}
+.day2-second{opacity:0;transform:translateY(12px)}
+.day2-morning.show-second .day2-second{opacity:1;transform:translateY(0)}
+@media(max-width:767px){.day2-content{top:22%;left:7vw;width:84vw}.day2-content h2{font-size:clamp(66px,16vw,110px)}.day2-shade{background:linear-gradient(90deg,#100d0bbb,#100d0b55 90%)}.day2-header{top:23px;font-size:12px}.day2-image{object-position:43% 50%}}
+
+/* v5.21: День 2 — два самостоятельных полноэкранных кадра.
+   Сохраняем уже утвержденный переход между фото. */
+.day2-morning{height:160svh}
+.day2-washing{height:195svh;position:relative;background:#14110e;color:#f5eee1;isolation:isolate}
+.day2-wash-sticky{position:sticky;top:0;height:100svh;overflow:hidden}
+.day2-wash-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center center;filter:sepia(.12) saturate(.83) contrast(1.03);
+ -webkit-mask-image:linear-gradient(to bottom,transparent 0%,#000 17%,#000 79%,transparent 100%);
+ mask-image:linear-gradient(to bottom,transparent 0%,#000 17%,#000 79%,transparent 100%)}
+.day2-wash-shade{position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(18,15,13,.86),rgba(18,15,13,.37) 32%,transparent 68%)}
+.day2-wash-copy{position:absolute;z-index:4;top:31%;left:7vw;width:min(395px,76vw);font:400 clamp(17px,1.6vw,22px)/1.55 'PT Sans',sans-serif;text-shadow:0 2px 12px #000b}
+.day2-wash-copy p{margin:0 0 26px}
+.day2-wash-later{opacity:0;transform:translateY(18px);transition:opacity .8s ease,transform .8s ease}
+.day2-washing.show-later .day2-wash-later{opacity:1;transform:translateY(0)}
+.day2-water-drops{position:absolute;z-index:2;left:64%;top:58%;pointer-events:none}
+.day2-water-drops i{position:absolute;width:3px;height:11px;border-radius:60% 60% 70% 70%;background:rgba(244,241,223,.64);animation:otboy-drip 2.8s ease-in infinite;opacity:0}
+.day2-water-drops i:nth-child(2){left:22px;animation-delay:.9s}.day2-water-drops i:nth-child(3){left:-16px;animation-delay:1.8s}
+@keyframes otboy-drip{0%,20%{opacity:0;transform:translateY(-10px)}35%{opacity:.8}75%,100%{opacity:0;transform:translateY(56px)}}
+@media(max-width:767px){.day2-wash-copy{top:27%;left:7vw;width:80vw}.day2-wash-photo{object-position:48% center}.day2-wash-shade{background:linear-gradient(90deg,#120f0dc9,#120f0d25 95%)}.day2-water-drops{left:76%}}
+@media(prefers-reduced-motion:reduce){.day2-water-drops i{animation:none}.day2-wash-later{transition:none}}
+
+/* v5.22: точечные правки второго дня, не затрагивают утверждённые сцены */
+.day2-content{top:46%;left:5.5vw;width:min(390px,36vw)}
+.day2-content h2{font-size:clamp(65px,8.5vw,118px);margin-bottom:18px}
+.day2-content .day2-first{max-width:335px}
+.day2-wash-copy{left:auto;right:6.5vw;top:32%;width:min(350px,27vw);z-index:6}
+.day2-wash-shade{background:linear-gradient(270deg,rgba(18,15,13,.74) 0%,rgba(18,15,13,.28) 32%,transparent 65%)}
+.day2-water-drops{display:none!important}
+.wash-ripples{position:absolute;left:25%;top:75%;width:130px;height:45px;pointer-events:none;z-index:3;transform:rotate(-6deg)}
+.wash-ripples span{position:absolute;left:50%;top:50%;width:22px;height:7px;border:1px solid rgba(249,236,204,.68);border-radius:50%;transform:translate(-50%,-50%) scale(.4);opacity:0;animation:wash-ripple 3.4s ease-out infinite}
+.wash-ripples span:nth-child(2){animation-delay:1.13s}.wash-ripples span:nth-child(3){animation-delay:2.26s}
+@keyframes wash-ripple{0%{opacity:0;transform:translate(-50%,-50%) scale(.4)}20%{opacity:.6}85%,100%{opacity:0;transform:translate(-50%,-50%) scale(3.5)}}
+@media(max-width:767px){.day2-content{top:47%;left:7vw;width:80vw}.day2-content h2{font-size:clamp(65px,15vw,105px)}.day2-wash-copy{right:6vw;left:auto;top:23%;width:min(300px,72vw)}.day2-wash-shade{background:linear-gradient(270deg,rgba(18,15,13,.77),rgba(18,15,13,.12) 100%)}.wash-ripples{left:25%;top:76%}}
+@media(prefers-reduced-motion:reduce){.wash-ripples span{animation:none;opacity:.4;transform:translate(-50%,-50%) scale(2)}}
+
+/* Умывалка: без анимации воды */
+.wash-ripples,.day2-water-drops{display:none!important}
+
+/* День 2, 13:10 — новая самостоятельная сцена. Текст не встроен в изображение. */
+.day2-lunch{height:235svh;position:relative;background:#14110e;color:#f5eee1;isolation:isolate}
+.day2-lunch-sticky{height:100svh;position:sticky;top:0;overflow:hidden}
+.day2-lunch-photo{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center 48%;filter:sepia(.1) saturate(.85);-webkit-mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 81%,transparent);mask-image:linear-gradient(to bottom,transparent,#000 18%,#000 81%,transparent)}
+.day2-lunch-shade{position:absolute;inset:0;background:linear-gradient(90deg,rgba(17,14,12,.85),rgba(17,14,12,.42) 29%,transparent 65%);pointer-events:none}
+.day2-lunch-copy{position:absolute;left:6.5vw;right:auto;top:28%;width:min(360px,29vw);z-index:7;font:400 clamp(17px,1.5vw,21px)/1.55 'PT Sans',sans-serif;text-shadow:0 2px 13px #000a}
+.day2-lunch-copy p{margin:0 0 25px}
+.day2-lunch-copy p:not(:first-child){opacity:0;transform:translateY(12px);transition:opacity .75s ease,transform .75s ease}
+.day2-lunch.step-1 .day2-lunch-second,.day2-lunch.step-2 .day2-lunch-second,.day2-lunch.step-3 .day2-lunch-second{opacity:1;transform:none}
+.day2-lunch.step-2 .day2-lunch-third,.day2-lunch.step-3 .day2-lunch-third{opacity:1;transform:none}
+.day2-lunch.step-3 .day2-lunch-fourth{opacity:1;transform:none}
+.day2-lunch-speaker{display:block;font-size:.72em;letter-spacing:.12em;text-transform:uppercase;opacity:.8;margin-bottom:3px}
+@media(max-width:767px){.day2-lunch-copy{right:6vw;top:29%;width:76vw}.day2-lunch-shade{background:linear-gradient(270deg,#110e0cd9,#110e0c22)}.day2-lunch-photo{object-position:47% center}}
+@media(prefers-reduced-motion:reduce){.day2-lunch-copy p{transition:none!important}}
+
+/* v5.25: approved cafeteria photograph, copy left, extra mug visible */
+.day2-lunch-photo{object-position:50% 61%}
+@media(max-width:767px){.day2-lunch-copy{left:7vw;right:auto;top:23%;width:min(300px,78vw)}.day2-lunch-shade{background:linear-gradient(90deg,rgba(17,14,12,.86),rgba(17,14,12,.36) 72%,transparent)}.day2-lunch-photo{object-position:50% 58%}}
+
+#day2-lunch .day2-lunch-copy{opacity:calc(1 - var(--cinema-zoom,0)*.85);transition:opacity .12s linear}
+/* v5.26 — киноязык вместо декоративных анимаций.
+   На втором дне камера едва приближается к столу, когда речь заходит о кружке. */
+#day2-lunch .day2-lunch-photo{
+ transform:translate(calc(var(--cinema-zoom,0)*22%),calc(var(--cinema-zoom,0)*-17%)) scale(calc(1 + var(--cinema-zoom,0)*1.45));
+ transform-origin:24% 73%;
+ transition:transform .10s linear;
+ will-change:transform;
+}
+#day2-lunch .day2-lunch-shade{transition:background .9s ease}
+#day2-lunch.step-2 .day2-lunch-shade,
+#day2-lunch.step-3 .day2-lunch-shade{
+ background:linear-gradient(90deg,rgba(17,14,12,.74) 0%,rgba(17,14,12,.40) 27%,transparent 59%),
+ radial-gradient(ellipse at 23% 74%,transparent 0%,transparent 19%,rgba(15,12,10,.16) 75%);
+}
+#day2-lunch .mug-attention{
+ position:absolute;left:20.5%;top:76%;width:8%;height:10%;
+ border-radius:50%;pointer-events:none;z-index:3;opacity:0;
+ box-shadow:0 0 0 1px rgba(255,246,218,.22),0 0 35px 12px rgba(255,225,163,.13);
+ transition:opacity 1s ease;
+}
+#day2-lunch.step-2 .mug-attention,#day2-lunch.step-3 .mug-attention{opacity:1}
+@media(prefers-reduced-motion:reduce){
+ #day2-lunch .day2-lunch-photo{transform:none!important;transition:none}
+ #day2-lunch .mug-attention{transition:none}
+}
+
